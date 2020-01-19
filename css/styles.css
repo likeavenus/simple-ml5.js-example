@@ -1,0 +1,31 @@
+img {
+    width: 500px;
+}
+
+body {
+    margin: 10px;
+}
+
+button {
+    display: inline-block;
+    margin: 0 3px;
+}
+
+canvas {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.loading-title {
+    animation: title 1s ease infinite forwards;
+}
+
+@keyframes title {
+    0% {
+        opacity: .2;
+    }
+
+    100% {
+        opacity: .9;
+    }
+}
