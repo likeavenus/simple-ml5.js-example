@@ -4,6 +4,7 @@ let video;
 let label = 'Test';
 let telephoneBtn;
 let bananBtn;
+let unknownBtn;
 let trainButton;
 
 const loading = document.querySelector('.loading-title');
@@ -22,7 +23,7 @@ function gotResults(error, result) {
         console.error(error);
     } else {
         console.log(result);
-        label = result;
+        label = result[0].label;
         classifier.classify(gotResults);
     }
 }
@@ -36,12 +37,19 @@ function whileTraining(loss) {
     }
 }
 
+const options = {
+    learningRate: 0.0001,
+    hiddenUnits: 100,
+    numLabels: 3,
+    epochs: 30,
+};
+
 function setup() {
     createCanvas(320, 270);
     video = createCapture(VIDEO);
     video.hide();
     background(0);
-    mobileNet = ml5.featureExtractor('MobileNet', modelReady);
+    mobileNet = ml5.featureExtractor('MobileNet', options, modelReady);
     classifier = mobileNet.classification(video, videoReady);
 
     telephoneBtn = createButton('Телефон');
@@ -54,10 +62,17 @@ function setup() {
         classifier.addImage('Банан');
     })
 
+    unknownBtn = createButton('Unknown');
+    unknownBtn.mousePressed(function () {
+        classifier.addImage('unknown');
+    })
+
     trainButton = createButton('Train');
     trainButton.mousePressed(function () {
         classifier.train(whileTraining);
     })
+
+
 
 
 }
